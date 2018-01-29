@@ -1,5 +1,7 @@
-[git-lesson-repository](https://github.com/expertneo/git-lesson-repository)
+<h1>
+WELCOME TO THE HELL
+</h1>
+
+[Bence Papp's main GIT page](https://github.com/expertneo)
 <br />
-[Trial](https://github.com/expertneo/Trial)
-<br />
-[patchwork](https://github.com/expertneo/patchwork)
+[Bence's main repo for GreenFox](https://github.com/greenfox-academy/expertneo)

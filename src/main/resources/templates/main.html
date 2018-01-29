@@ -5,10 +5,32 @@
         <link href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" rel="stylesheet"/>
         <title>Chat Application Early Access</title>
     </head>
-    <body>
+    <body style="background: url(http://eskipaper.com/images/paper-background-4.jpg)">
+        <div class="container" align="center">
             <h1 style="font-weight: bolder">
                 Peer to Peer Chat program
             </h1>
+            <form action="#" th:object="${chatUser}" th:action="@{/enterChatUser}" method="post">
+                <label for="chatUser">Your username: </label>
+                <input id="chatUser" name="chatUser" type="text" th:placeholder="*{name}"
+                       th:field="*{name}"/>
+                <input type="submit" value="Update"/>
+            </form>
+            <span style="color: red" th:if="${chatUser.valid()}"
+                  th:text="'Please enter a valid name'"/>
+            <table  class="table table-striped">
+                <tr th:each="message : ${messages}">
+                    <th th:text="${message.chatUser.getName()}"></th>
+                    <th th:text="${message.text}"></th>
+                </tr>
+            </table>
+            <form action="#" th:object="${message}" th:action="@{/submitMessage}" method="post">
+                <label for="message"></label>
+                <input id="message" name="message" type="text"
+                       th:field="*{text}" style="width: 70%"/>
+                <input type="submit" value="Send"/>
+            </form>
+        </div>
         <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
         <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
     </body>

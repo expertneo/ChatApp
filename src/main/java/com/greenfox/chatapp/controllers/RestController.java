@@ -5,6 +5,8 @@ import com.greenfox.chatapp.models.REST.MessagePackage;
 import com.greenfox.chatapp.services.ChatUserService;
 import com.greenfox.chatapp.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,10 +23,15 @@ public class RestController {
   MessageService messageService;
 
   @PostMapping("/api/message/receive")
-  public Object postJsonMessage(@RequestBody (required = false) MessagePackage messagePackage) {
+  public ResponseEntity<?> postJsonMessage(@RequestBody (required = false) MessagePackage
+  messagePackage) {
     if (messagePackage == null || messagePackage.getClient() == null || messagePackage.getMessage
             () == null || messagePackage.getClient().getId().isEmpty()) {
-      return new JsonResponseError("error", "Missing field(s): message.timestamp, client.id");
+      return ResponseEntity.status(401).body(new JsonResponseError("error", "Missing field(s): message" +
+              ".timestamp, client.id"));
+      //              or
+      //              new ResponseEntity<>(new JsonResponseError("error", "Missing field(s): message" +
+      //              ".timestamp, client.id"), HttpStatus.UNAUTHORIZED);
     } else if (chatUserService.getAllUsers().contains(chatUserService.getChatUserByName
             (messagePackage.getClient().getId()))){
       Message newMessage = new Message();
@@ -32,7 +39,7 @@ public class RestController {
       newMessage.setChatUser(chatUserService.getChatUserByName
               (messagePackage.getClient().getId()));
       messageService.createMessage(newMessage);
-      return new JsonResponse("ok");
+      return ResponseEntity.status(200).body(new JsonResponse("ok"));
     } else {
       ChatUser newChatUser = new ChatUser();
       newChatUser.setName(messagePackage.getClient().getId());
@@ -42,7 +49,7 @@ public class RestController {
       newMessage.setChatUser(chatUserService.getChatUserByName
               (messagePackage.getClient().getId()));
       messageService.createMessage(newMessage);
-      return new JsonResponse("ok");
+      return ResponseEntity.status(200).body(new JsonResponse("ok"));
     }
   }
 }

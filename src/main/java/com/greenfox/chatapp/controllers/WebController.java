@@ -53,8 +53,10 @@ public class WebController {
   }
 
   @PostMapping("/submitMessage")
-  public String submitNewMessage(Model model, @ModelAttribute Message message) {
+  public String submitNewMessage(Model model, @ModelAttribute Message message,
+                                 @ModelAttribute ChatUser chatUser) {
     if (message != null) {
+      loggedInChatUser = chatUserService.logIn(chatUser);
       Message messageNew = message;
       messageNew.setChatUser(loggedInChatUser);
       messageService.createMessage(messageNew);

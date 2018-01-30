@@ -1,6 +1,7 @@
 package com.greenfox.chatapp.models;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -10,17 +11,20 @@ public class Message {
   int messageId;
 
   String text;
+  String dateAndTime;
 
   @ManyToOne (fetch = FetchType.LAZY)
   @JoinColumn(name = "idChatUser")
   private ChatUser chatUser;
 
   public Message() {
+    this.dateAndTime = String.valueOf(LocalDateTime.now());
   }
 
   public Message(String text, ChatUser chatUser) {
     this.text = text;
     this.chatUser = chatUser;
+    this.dateAndTime = String.valueOf(LocalDateTime.now());
   }
 
   public int getMessageId() {
@@ -45,5 +49,13 @@ public class Message {
 
   public void setChatUser(ChatUser chatUser) {
     this.chatUser = chatUser;
+  }
+
+  public String getDateAndTime() {
+    return dateAndTime;
+  }
+
+  public void setDateAndTime(String dateAndTime) {
+    this.dateAndTime = dateAndTime;
   }
 }
